@@ -5,6 +5,7 @@
 // Gulp and package
 import { src, dest, parallel, series, task, watch } from 'gulp';
 import pjson from './package.json' with {type: 'json'};
+import path from 'node:path';
 
 // Plugins
 import autoprefixer from 'autoprefixer';
@@ -29,13 +30,18 @@ const uglify = gulUglifyES.default;
 // Relative paths function
 function pathsConfig() {
   const appName = `./${pjson.name}`;
-  const vendorsRoot = 'node_modules';
+  const vendorsRoot = path.resolve('node_modules');
 
   return {
     vendorsJs: [
       `${vendorsRoot}/@popperjs/core/dist/umd/popper.js`,
       `${vendorsRoot}/bootstrap/dist/js/bootstrap.js`,
+      `${vendorsRoot}/sweetalert2/dist/sweetalert2.all.min.js`,
     ],
+    vendorsCss: [
+      `${vendorsRoot}/sweetalert2/dist/sweetalert2.min.css`,
+    ],
+
     app: appName,
     templates: `${appName}/templates`,
     css: `${appName}/static/css`,
@@ -98,6 +104,15 @@ function vendorScripts() {
     .pipe(dest(paths.js, { sourcemaps: '.' }));
 }
 
+function vendorStyles() {
+  return src(paths.vendorsCss)
+    .pipe(concat('vendors.css'))
+    .pipe(dest(paths.css))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(dest(paths.css));
+}
+
+
 // Image compression
 async function imgCompression() {
   const imagemin = (await import("gulp-imagemin")).default;
@@ -147,7 +162,7 @@ function watchPaths() {
 }
 
 // Generate all assets
-const build = parallel(styles, scripts, vendorScripts, imgCompression);
+const build = parallel(styles, scripts, vendorScripts, imgCompression, vendorStyles);
 
 // Set up dev environment
 const dev = parallel(initBrowserSync, watchPaths);

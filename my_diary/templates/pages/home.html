@@ -1,3 +1,27 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% load static %}
 
+{% block title %}{% translate "Home" %}{% endblock title %}
 
+{% block main %}
+  {% block content %}
+    <h1>{% translate "Welcome to My Diary" %}</h1>
+    <p>{% translate "This is your personal diary application." %}</p>
+    <p>{% translate "You can create, edit, and delete diary entries." %}</p>
+  {% endblock content %}
+{% endblock main %}
+
+{% block inline_javascript %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      Swal.fire({
+        title: '{% translate "Welcome!" %}',
+        text: '{% translate "This is your personal diary application." %}',
+        icon: 'info',
+        confirmButtonText: '{% translate "Got it!" %}'
+      });
+    });
+  </script>
+{% endblock inline_javascript %}
