@@ -34,3 +34,17 @@ $red: #b94a48;
   border-color: $dark-pink;
   color: $red;
 }
+
+
+.auth-panel{
+  max-width: 450px;
+  margin: 24px auto;
+  padding: 20px;
+  background-color: #f8f9fa;    
+}
+
+.errorlist {
+  color: $red;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}

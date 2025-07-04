@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load form_tags %}
+{% block content %}
+
+<form method="POST" action="{% url 'account_signup' %}" class="auth-panel">
+    <h2 class="text-center">{{ _("Sign Up") }}</h2>
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ form.first_name.label_tag }}
+        {{ form.first_name|add_class:"form-control" }}
+        {{ form.first_name.errors }}
+    </div>
+    <div class="mb-3">
+        {{ form.last_name.label_tag }}
+        {{ form.last_name|add_class:"form-control" }}
+        {{ form.last_name.errors }}
+    </div>
+    <div class="mb-3">
+        {{ form.email.label_tag }}
+        {{ form.email|add_class:"form-control" }}
+        {{ form.email.errors }}
+    </div>
+    <div class="mb-3">
+        {{ form.password1.label_tag }}
+        {{ form.password1|add_class:"form-control" }}
+        {{ form.password1.errors }}
+    </div>
+    <div class="mb-3">
+        {{ form.password2.label_tag }}
+        {{ form.password2|add_class:"form-control" }}
+        {{ form.password2.errors }}
+    </div>
+    <button type="submit" class="btn btn-primary w-100 mt-2 mb-4">Register</button>
+    <div class="text-center mb-2">Already have an account ? <a href="{% url 'account_login' %}">Sign In</a></div>
+</form>
+{% endblock %}
+{% block inline_javascript %}
+{% if form.non_field_errors %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        Swal.fire({
+            title: '{{ _("Error") }}',
+            text: '{{ form.non_field_errors|join:", " }}',
+            icon: 'error',
+            confirmButtonText: '{{ _("Got it!") }}'
+        });
+    });
+</script>
+{% endif %}
+
+{% endblock inline_javascript %}
