@@ -1,4 +1,4 @@
-from my_diary.users.models import User
+from my_polls.users.models import User
 
 
 def test_user_get_absolute_url(user: User):

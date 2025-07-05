@@ -82,7 +82,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "my_polls.users",
-    "my_polls.poles"
+    "my_polls.polls"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
     from allauth.socialaccount.models import SocialLogin
     from django.http import HttpRequest
 
-    from my_diary.users.models import User
+    from my_polls.users.models import User
 
 
 class AccountAdapter(DefaultAccountAdapter):

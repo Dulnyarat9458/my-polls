@@ -10,7 +10,7 @@ norecursedirs = ["node_modules"]
 
 # ==== Coverage ====
 [tool.coverage.run]
-include = ["my_diary/**"]
+include = ["my_polls/**"]
 omit = ["*/migrations/*", "*/tests/*"]
 plugins = ["django_coverage_plugin"]
 

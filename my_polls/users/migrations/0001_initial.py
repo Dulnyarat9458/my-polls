@@ -4,7 +4,7 @@ import django.utils.timezone
 from django.db import migrations
 from django.db import models
 
-import my_diary.users.models
+import my_polls.users.models
 
 
 class Migration(migrations.Migration):
@@ -106,7 +106,7 @@ class Migration(migrations.Migration):
                 "abstract": False,
             },
             managers=[
-                ("objects", my_diary.users.models.UserManager()),
+                ("objects", my_polls.users.models.UserManager()),
             ],
         ),
     ]

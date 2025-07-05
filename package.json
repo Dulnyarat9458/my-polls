@@ -1,5 +1,5 @@
 {
-  "name": "my_diary",
+  "name": "my_polls",
   "version": "0.1.0",
   "devDependencies": {
     "@popperjs/core": "^2.10.2",

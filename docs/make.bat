@@ -10,7 +10,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=_source
 set BUILDDIR=_build
-set APP=..\my_diary
+set APP=..\my_polls
 
 if "%1" == "" goto html
 

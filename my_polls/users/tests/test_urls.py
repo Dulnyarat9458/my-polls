@@ -1,7 +1,7 @@
 from django.urls import resolve
 from django.urls import reverse
 
-from my_diary.users.models import User
+from my_polls.users.models import User
 
 
 def test_detail(user: User):

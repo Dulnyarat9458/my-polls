@@ -82,7 +82,7 @@ RUN chmod +x /start
 COPY --from=client-builder --chown=django:django ${APP_HOME} ${APP_HOME}
  
 # explicitly create the media folder before changing ownership below
-RUN mkdir -p ${APP_HOME}/my_diary/media
+RUN mkdir -p ${APP_HOME}/my_polls/media
 
 # make django owner of the WORKDIR directory as well.
 RUN chown -R django:django ${APP_HOME}

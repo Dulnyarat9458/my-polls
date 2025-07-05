@@ -19,9 +19,9 @@ def main():
         ) from exc
 
     # This allows easy placement of apps within the interior
-    # my_diary directory.
+    # my_polls directory.
     current_path = Path(__file__).parent.resolve()
-    sys.path.append(str(current_path / "my_diary"))
+    sys.path.append(str(current_path / "my_polls"))
 
     execute_from_command_line(sys.argv)
 

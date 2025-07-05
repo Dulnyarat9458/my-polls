@@ -2,8 +2,8 @@
 
 from django.utils.translation import gettext_lazy as _
 
-from my_diary.users.forms import UserAdminCreationForm
-from my_diary.users.models import User
+from my_polls.users.forms import UserAdminCreationForm
+from my_polls.users.models import User
 
 
 class TestUserAdminCreationForm:

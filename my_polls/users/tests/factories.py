@@ -5,7 +5,7 @@ from factory import Faker
 from factory import post_generation
 from factory.django import DjangoModelFactory
 
-from my_diary.users.models import User
+from my_polls.users.models import User
 
 
 class UserFactory(DjangoModelFactory[User]):

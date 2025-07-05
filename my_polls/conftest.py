@@ -1,7 +1,7 @@
 import pytest
 
-from my_diary.users.models import User
-from my_diary.users.tests.factories import UserFactory
+from my_polls.users.models import User
+from my_polls.users.tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)
