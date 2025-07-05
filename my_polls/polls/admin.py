@@ -5,7 +5,7 @@ from my_polls.polls.models import Poll, Choice
 
 @admin.register(Poll)
 class PollAdmin(admin.ModelAdmin):
-    list_display = ('question', 'created_at')
+    list_display = ('question', 'user', 'created_at')
     search_fields = ('question',)
     list_filter = ('created_at',)
     date_hierarchy = 'created_at'

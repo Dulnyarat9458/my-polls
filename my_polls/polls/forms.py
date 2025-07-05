@@ -16,3 +16,4 @@ class PollModelForm(forms.ModelForm):
         if not question:
             raise forms.ValidationError("This field is required.")
         return question
+
