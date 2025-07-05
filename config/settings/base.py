@@ -7,8 +7,8 @@ from pathlib import Path
 import environ
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
-# my_pole/
-APPS_DIR = BASE_DIR / "my_pole"
+# my_polls/
+APPS_DIR = BASE_DIR / "my_polls"
 env = environ.Env()
 
 READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
@@ -81,8 +81,8 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "my_pole.users",
-    "my_pole.poles"
+    "my_polls.users",
+    "my_polls.poles"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -91,7 +91,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
-MIGRATION_MODULES = {"sites": "my_pole.contrib.sites.migrations"}
+MIGRATION_MODULES = {"sites": "my_polls.contrib.sites.migrations"}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -186,7 +186,7 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                "my_pole.users.context_processors.allauth_settings",
+                "my_polls.users.context_processors.allauth_settings",
             ],
         },
     },
@@ -274,16 +274,16 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "none"
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_ADAPTER = "my_pole.users.adapters.AccountAdapter"
+ACCOUNT_ADAPTER = "my_polls.users.adapters.AccountAdapter"
 # https://docs.allauth.org/en/latest/account/forms.html
 ACCOUNT_FORMS = {
-    "signup": "my_pole.users.forms.UserSignupForm",
-    "login": "my_pole.users.forms.CustomLoginForm"
+    "signup": "my_polls.users.forms.UserSignupForm",
+    "login": "my_polls.users.forms.CustomLoginForm"
 }
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_ADAPTER = "my_pole.users.adapters.SocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "my_polls.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_FORMS = {"signup": "my_pole.users.forms.UserSocialSignupForm"}
+SOCIALACCOUNT_FORMS = {"signup": "my_polls.users.forms.UserSocialSignupForm"}
 
 
 # Your stuff...
