@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate "Polls" %}{% endblock title %}
+
+{% block main %}
+  {% block content %}
+    <h1>{% translate "Poll Detail" %}</h1>
+    <p>{% translate "This is the detail page for a poll." %}</p>
+    <p>{% translate "You can view the details of the poll here." %}</p>
+
+    <div class="poll-detail">
+      <h2>{{ poll.question }}</h2>
+      <p>Published on: {{ poll.pub_date|date:"Y-m-d H:i" }}</p>
+      <p>Created by: {{ poll.user }}</p>
+    </div>
+
+    <div class="text-end">
+      <a href="{% url 'polls:edit' poll.pk %}" class="btn btn-primary">{% translate "Edit Poll" %}</a>
+      <a href="{% url 'polls:delete' poll.pk %}" class="btn btn-danger">{% translate "Delete Poll" %}</a>
+      <a href="{% url 'polls:index' %}" class="btn btn-secondary">{% translate "Back to Polls" %}</a>
+    </div>
+  {% endblock content %}
+{% endblock main %}
+
+{% block inline_javascript %}
+{% endblock inline_javascript %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% translate "Polls" %}{% endblock title %}
+{% block main %}
+  {% block content %}
+    <h1>{% translate "Poll Add" %}</h1>
+    <p>{% translate "This is the add poll page." %}</p> 
+    <p>{% translate "You can create a new poll here." %}</p>
+    <form method="post" action="{% url 'polls:add' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">{% translate "Create Poll" %}</button>
+  {% endblock content %}
+{% endblock main %}
+
+{% block inline_javascript %}
+{% endblock inline_javascript %}

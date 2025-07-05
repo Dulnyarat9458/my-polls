@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate "Polls" %}{% endblock title %}
+
+{% block main %}
+  {% block content %}
+    <h1>{% translate "Poll list" %}</h1>
+    <p>{% translate "This is the list of polls." %}</p>
+    <p>{% translate "You can create, edit, and delete polls." %}</p>
+      <div class="text-end"><a href="{% url 'polls:add' %}">{% translate "Add a new poll" %}</a></div>
+      {% for poll in polls %}
+        <li><a href="{% url 'polls:detail' poll.id %}">{{ poll.question }}</li>
+      {% empty %}
+        <li>{% translate "No polls available." %}</li>
+      {% endfor %}
+    </ul>
+  {% endblock content %}
+{% endblock main %}
+
+{% block inline_javascript %}
+{% endblock inline_javascript %}

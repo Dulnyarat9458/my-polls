@@ -61,20 +61,25 @@
         <a class="navbar-brand" href="{% url 'home' %}">My Diary</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'home' %}">Home <span class="visually-hidden">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">About</a>
-            </li>
             {% if request.user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link"
-                   href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
+                <a 
+                  class="nav-link"
+                  href="{% url 'users:update' %}" >
+                  {% comment %} href="{% url 'users:detail' request.user.pk %}"> {% endcomment %}
+                  {% translate "My Profile" %}
+                </a>
               </li>
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}
-                <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
+                <form method="POST" action="{% url 'account_logout' %}">
+                  {% csrf_token %}
+                  <input 
+                    type="submit"
+                    class="nav-link"
+                    value="{% translate 'Sign Out' %}" 
+                  />
+                </form>
               </li>
             {% else %}
               {% if ACCOUNT_ALLOW_REGISTRATION %}

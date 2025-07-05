@@ -21,15 +21,14 @@ user_detail_view = UserDetailView.as_view()
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
-    fields = ["name"]
+    fields = ["first_name", "last_name"]
     success_message = _("Information successfully updated")
 
     def get_success_url(self) -> str:
-        assert self.request.user.is_authenticated  # type guard
-        return self.request.user.get_absolute_url()
+        return self.request.META.get("HTTP_REFERER") or "/"
 
     def get_object(self, queryset: QuerySet | None=None) -> User:
-        assert self.request.user.is_authenticated  # type guard
+        assert self.request.user.is_authenticated
         return self.request.user
 
 
