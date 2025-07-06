@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Poll(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
@@ -15,7 +13,7 @@ class Poll(models.Model):
 
 class Choice(models.Model):
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=255)
+    choice_text = models.CharField(max_length=255, blank=False)
 
     def __str__(self):
         return self.choice_text

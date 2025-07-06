@@ -12,6 +12,15 @@
 
     <div class="poll-detail">
       <h2>{{ poll.question }}</h2>
+    <div class="choices">
+      <ul>
+        {% for choice in poll.choice_set.all %}
+          <li>{{ choice.choice_text }}</li>
+        {% empty %}
+          <li>{% translate "No choices available." %}</li>
+        {% endfor %}
+      </ul>
+    </div>
       <p>Published on: {{ poll.pub_date|date:"Y-m-d H:i" }}</p>
       <p>Created by: {{ poll.user }}</p>
     </div>

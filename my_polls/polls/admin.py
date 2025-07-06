@@ -1,6 +1,5 @@
 from django.contrib import admin
 from my_polls.polls.models import Poll, Choice
-# Register your models here.
 
 
 @admin.register(Poll)
@@ -13,9 +12,11 @@ class PollAdmin(admin.ModelAdmin):
 
 @admin.register(Choice)
 class ChoiceAdmin(admin.ModelAdmin):
-    list_display = ('poll', 'choice_text')
-    search_fields = ('choice_text',)
-    list_filter = ('poll',)
-    
-    def has_add_permission(self, request):
-        return False
+    list_display = ('poll', 'choice_text', 'user')
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.select_related('poll__user')
+
+    def user(self, obj):
+        return obj.poll.user

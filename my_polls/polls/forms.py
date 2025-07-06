@@ -1,6 +1,6 @@
 from django import forms
 
-from my_polls.polls.models import Poll
+from my_polls.polls.models import Poll, Choice
 
 
 class PollModelForm(forms.ModelForm):
@@ -11,9 +11,16 @@ class PollModelForm(forms.ModelForm):
             'question': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
-    def clean_question(self):
-        question = self.cleaned_data.get('question')
-        if not question:
-            raise forms.ValidationError("This field is required.")
-        return question
 
+class ChoiceModelForm(forms.ModelForm):
+    
+    choice_text = forms.CharField(
+        required=True,
+        max_length=255,
+    )
+    class Meta:
+        model = Choice
+        fields = ['choice_text']
+        widgets = {
+            'choice_text': forms.TextInput(attrs={'class': 'form-control'}),
+        }
