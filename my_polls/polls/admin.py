@@ -4,7 +4,7 @@ from my_polls.polls.models import Poll, Choice
 
 @admin.register(Poll)
 class PollAdmin(admin.ModelAdmin):
-    list_display = ('question', 'user', 'created_at')
+    list_display = ('id', 'question', 'user', 'created_at')
     search_fields = ('question',)
     list_filter = ('created_at',)
     date_hierarchy = 'created_at'
@@ -12,7 +12,7 @@ class PollAdmin(admin.ModelAdmin):
 
 @admin.register(Choice)
 class ChoiceAdmin(admin.ModelAdmin):
-    list_display = ('poll', 'choice_text', 'user')
+    list_display = ('id', 'poll', 'choice_text', 'user')
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
