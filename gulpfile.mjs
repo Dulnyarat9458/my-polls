@@ -37,6 +37,7 @@ function pathsConfig() {
       `${vendorsRoot}/@popperjs/core/dist/umd/popper.js`,
       `${vendorsRoot}/bootstrap/dist/js/bootstrap.js`,
       `${vendorsRoot}/sweetalert2/dist/sweetalert2.all.min.js`,
+      `${vendorsRoot}/chart.js/dist/chart.umd.js`, // เพิ่ม Chart.js
     ],
     vendorsCss: [
       `${vendorsRoot}/sweetalert2/dist/sweetalert2.min.css`,
