@@ -11,10 +11,20 @@
         {% comment %} <li class="breadcrumb-item active" aria-current="page">{% translate "Polls" %}</li> {% endcomment %}
       </ol>
     </nav>
-    <h1>{% translate "Poll list" %}</h1>
+
+    <div class="row mb-3">
+      <div class="col-12 text-center">
+        <h1 class="mb-0">{% translate "Poll list" %}</h1>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-end align-items-center mb-2 g-2">
+      <div class="col-12 col-md-auto d-flex justify-content-md-end gap-2">
+        <a href="{% url 'polls:add' %}" class="btn btn-primary w-100 w-md-auto">{% translate "Add a new poll" %}</a>
+      </div>
+    </div>
+
     <p>{% translate "This is the list of polls." %}</p>
     <p>{% translate "You can create, edit, and delete polls." %}</p>
-    <div class="text-end"><a href="{% url 'polls:add' %}" class="btn btn-primary">{% translate "Add a new poll" %}</a></div>
     <ul>
       {% for poll in polls %}
         <li><a href="{% url 'polls:detail' poll.id %}">{{ poll.question }}</a></li>

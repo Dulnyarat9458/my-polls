@@ -11,9 +11,15 @@
         <li class="breadcrumb-item active" aria-current="page">{% translate "Edit Poll" %}</li>
       </ol>
     </nav>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h1 class="mb-0">{% translate "Poll Edit" %}</h1>
-      <a href="{% url 'polls:detail' poll.id %}" class="btn btn-outline-secondary">&larr; {% translate "Back to Poll Detail" %}</a>
+    <div class="row align-items-center mb-2 g-2">
+      <div class="col-12 col-md-auto mb-2 mb-md-0 d-flex justify-content-md-start justify-content-center">
+        <a href="{% url 'polls:detail' poll.id %}" class="btn btn-outline-secondary w-100">&larr; {% translate "Back to Poll Detail" %}</a>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12 text-center">
+        <h1 class="mb-0">{% translate "Poll Edit" %}</h1>
+      </div>
     </div>
     <p>{% translate "This is the Edit poll page." %}</p> 
     <p>{% translate "You can edit a new poll here." %}</p>
@@ -40,7 +46,7 @@
         <button type="button" id="add-choice-button">➕ เพิ่ม Choice</button>
         <button type="button" id="remove-choice-button">➖ ลบ Choice สุดท้าย</button>
       </div>
-      <button type="submit" class="btn btn-primary d-block" >{% translate "Save" %}</button>
+      <button type="submit" class="btn btn-success">{% translate "Save Changes" %}</button>
     </form>
   {% endblock content %}
 {% endblock main %}

@@ -11,9 +11,15 @@
         <li class="breadcrumb-item active" aria-current="page">{% translate "Delete Poll" %}</li>
       </ol>
     </nav>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h1 class="mb-0">{% translate "Poll Delete" %}</h1>
-      <a href="{% url 'polls:detail' poll.id %}" class="btn btn-outline-secondary">&larr; {% translate "Back to Poll Detail" %}</a>
+    <div class="row align-items-center mb-2 g-2">
+      <div class="col-12 col-md-auto mb-2 mb-md-0 d-flex justify-content-md-start justify-content-center">
+        <a href="{% url 'polls:detail' poll.id %}" class="btn btn-outline-secondary w-100">&larr; {% translate "Back to Poll Detail" %}</a>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12 text-center">
+        <h1 class="mb-0">{% translate "Poll Delete" %}</h1>
+      </div>
     </div>
     <p>{% translate "Are you sure you want to delete this poll?" %}</p>
     <form method="post" action="{% url 'polls:delete' poll.id %}">
