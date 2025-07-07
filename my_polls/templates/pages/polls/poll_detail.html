@@ -12,7 +12,14 @@
     <li class="breadcrumb-item active" aria-current="page">{{ poll.question|truncatechars:30 }}</li>
   </ol>
 </nav>
-<h1>{% translate "Poll Detail" %}</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">{% translate "Poll Detail" %}</h1>
+  <div>
+    <a href="{% url 'polls:index' %}" class="btn btn-outline-secondary me-2">&larr; {% translate "Back to Polls" %}</a>
+    <a href="{% url 'polls:edit' poll.id %}" class="btn btn-warning me-2">{% translate "Edit" %}</a>
+    <a href="{% url 'polls:delete' poll.id %}" class="btn btn-danger">{% translate "Delete" %}</a>
+  </div>
+</div>
 <p>{% translate "This is the detail page for a poll." %}</p>
 <p>{% translate "You can view the details of the poll here." %}</p>
 
@@ -36,37 +43,19 @@
   </div>
   <div>
     <label for="vote-url">{% translate "Vote URL:" %}</label>
-    <input type="text" id="vote-url" value="{{ vote_url }}" readonly class="form-control">
-    <small class="form-text text-muted">{% translate "You can share this URL to allow others to vote." %}</small>
-    <button class="btn btn-secondary mt-2" id="copy-btn">
-      {% translate "Copy Vote URL" %}
-    </button>
-  </div>
-  <div class="text-end d-flex justify-content-between align-items-center mt-4">
-    <a href="{% url 'polls:index' %}" class="btn btn-outline-secondary">
-      &larr; {% translate "Back to Polls" %}
-    </a>
-    <div>
-      <a href="{% url 'votes:vote' poll.pk %}" target="_blank" class="btn btn-info">
-        {% translate "Vote Poll" %}
-      </a>
-      <a href="{% url 'polls:download' poll.pk %}" target="_blank" class="btn btn-success">
-        {% translate "Download Poll" %}
-      </a>
-      <a href="{% url 'polls:edit' poll.pk %}" class="btn btn-primary">
-        {% translate "Edit Poll" %}
-      </a>
-      <a href="{% url 'polls:delete' poll.pk %}" class="btn btn-danger">
-        {% translate "Delete Poll" %}
-      </a>
+    <div class="input-group mb-2">
+      <input type="text" id="vote-url" value="{{ vote_url }}" readonly class="form-control">
+      <button type="button" class="btn btn-outline-secondary" id="copy-btn">{% translate "Copy" %}</button>
     </div>
+    <small class="form-text text-muted">{% translate "You can share this URL to allow others to vote." %}</small>
+    <a href="{{ vote_url }}" class="btn btn-success mt-2">{% translate "Go to Vote" %}</a>
   </div>
-  {% endblock content %}
-  {% endblock main %}
+</div>
+{% endblock content %}
+{% endblock main %}
 
-  {% block inline_javascript %}
-
-  <script id="labels-data"
+{% block inline_javascript %}
+<script id="labels-data"
     type="application/json">{{ choice_labels|safe }}</script>
   <script id="counts-data"
     type="application/json">{{ choice_counts|safe }}</script>
@@ -111,5 +100,4 @@
     });
   });
 </script>
-
-  {% endblock inline_javascript %}
+{% endblock inline_javascript %}
