@@ -30,10 +30,22 @@ class PollDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         choices = self.object.choice_set.annotate(vote_count=Count('vote'))
-
-        context["choice_labels"] = json.dumps([choice.choice_text for choice in choices], ensure_ascii=False)
-        context["choice_counts"] = json.dumps([choice.vote_count for choice in choices])
-            
+        context["choice_labels"] = json.dumps(
+            [choice.choice_text for choice in choices], 
+            ensure_ascii=False
+        )
+        context["choice_counts"] = json.dumps(
+            [choice.vote_count for choice in choices]
+        )
+        
+        vote = self.request.build_absolute_uri(
+            reverse("votes:vote", kwargs={"pk": self.object.pk})
+        )
+        
+        print(f"Vote URL: {vote}")  # Debugging line to check the vote URL
+        context["vote_url"] = vote
+        
+        
         return context
 
     def get_queryset(self):
@@ -79,7 +91,10 @@ class EditPollView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['formset'] = ChoiceInlineFormSet(self.request.POST, instance=self.object)
+            context['formset'] = ChoiceInlineFormSet(
+                self.request.POST, 
+                instance=self.object
+            )
         else:
             context['formset'] = ChoiceInlineFormSet(instance=self.object)
         

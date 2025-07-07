@@ -21,16 +21,23 @@
       {% endfor %}
     </ul>
   </div>
-  <div>
+  <div class="chart-container">
     <canvas id="voted-chart"></canvas>
   </div>
   <div>
     <p>Published on: {{ poll.created_at|date:"Y-m-d H:i" }}</p>
     <p>Created by: {{ poll.user }}</p>
   </div>
-
+  <div>
+    <label for="vote-url">{% translate "Vote URL:" %}</label>
+    <input type="text" id="vote-url" value="{{ vote_url }}" readonly class="form-control">
+    <small class="form-text text-muted">{% translate "You can share this URL to allow others to vote." %}</small>
+    <button class="btn btn-secondary mt-2" id="copy-btn">
+      {% translate "Copy Vote URL" %}
+    </button>
+  </div>
   <div class="text-end">
-    <a href="{% url 'votes:vote' poll.pk %}" class="btn btn-info">
+    <a href="{% url 'votes:vote' poll.pk %}" target="_blank" class="btn btn-info">
       {% translate "Vote Poll" %}
     </a>
     <a href="{% url 'polls:edit' poll.pk %}" class="btn btn-primary">
@@ -54,6 +61,17 @@
     type="application/json">{{ choice_counts|safe }}</script>
   <script>
   window.addEventListener('DOMContentLoaded', () => {
+
+  document.getElementById('copy-btn').onclick = function() {
+    navigator.clipboard.writeText(document.getElementById('vote-url').value).then(function() {
+      Swal.fire({
+        icon: 'success',
+        title: '{% translate "Copied!" %}',
+        showConfirmButton: false,
+        timer: 1200
+      });
+    });
+  };
 
   const choice_labels = JSON.parse(document.getElementById("labels-data").textContent);
   const choice_counts = JSON.parse(document.getElementById("counts-data").textContent);
