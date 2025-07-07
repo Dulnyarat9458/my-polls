@@ -18,6 +18,7 @@ urlpatterns = [
     # User management
     path("users/", include("my_polls.users.urls", namespace="users")),
     path("polls/", include("my_polls.polls.urls", namespace="polls")),
+    path("votes/", include("my_polls.votes.urls", namespace="votes")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
     # ...

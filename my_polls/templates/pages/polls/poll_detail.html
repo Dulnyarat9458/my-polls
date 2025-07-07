@@ -26,6 +26,7 @@
     </div>
 
     <div class="text-end">
+      <a href="{% url 'votes:vote' poll.pk %}" class="btn btn-info">{% translate "Vote Poll" %}</a>
       <a href="{% url 'polls:edit' poll.pk %}" class="btn btn-primary">{% translate "Edit Poll" %}</a>
       <a href="{% url 'polls:delete' poll.pk %}" class="btn btn-danger">{% translate "Delete Poll" %}</a>
       <a href="{% url 'polls:index' %}" class="btn btn-secondary">{% translate "Back to Polls" %}</a>

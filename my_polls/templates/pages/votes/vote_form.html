@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% translate "Polls" %}{% endblock title %}
+{% block main %}
+  {% block content %}
+    <h1>{% translate "Poll Vote" %}</h1>
+    <p>{% translate "This is the vote page." %}</p> 
+    <p>{% translate "You can vote here." %}</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <label for="choice">{{ object.question }}</label>
+      {{ form.choice}}
+      {{ form.choice.errors }}
+      <button type="submit" class="btn btn-primary d-block" >{% translate "Vote" %}</button>
+    </form>
+  {% endblock content %}
+{% endblock main %}
+
+{% block inline_javascript %}
+<script src="{% static 'js/polls/formset_controller.js' %}"></script>
+{% endblock inline_javascript %}
