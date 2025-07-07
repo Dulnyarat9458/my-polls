@@ -22,7 +22,7 @@
       </ul>
     </div>
     <div>
-      <canvas id="myChart"></canvas>
+      <canvas id="voted-chart"></canvas>
     </div>
     <div>
       <p>Published on: {{ poll.pub_date|date:"Y-m-d H:i" }}</p>
@@ -39,17 +39,23 @@
 {% endblock main %}
 
 {% block inline_javascript %}
-<script>
 
+<script id="labels-data" type="application/json">{{ choice_labels|safe }}</script>
+<script id="counts-data" type="application/json">{{ choice_counts|safe }}</script>
+<script>
   window.addEventListener('DOMContentLoaded', () => {
-    const ctx = document.getElementById('myChart');
+
+  const choice_labels = JSON.parse(document.getElementById("labels-data").textContent);
+  const choice_counts = JSON.parse(document.getElementById("counts-data").textContent);
+
+    const ctx = document.getElementById('voted-chart');
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: choice_labels,
         datasets: [{
           label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
+          data: choice_counts,
           borderWidth: 1
         }]
       },
@@ -61,11 +67,7 @@
         }
       }
     });
-
   });
-  
-
-
 </script>
 
 {% endblock inline_javascript %}

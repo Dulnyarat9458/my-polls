@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.urls import reverse, reverse_lazy
@@ -6,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count
 
 from my_polls.polls.models import Poll, Choice
 from my_polls.polls.forms import PollModelForm
@@ -24,6 +27,15 @@ class PollDetailView(LoginRequiredMixin, DetailView):
     template_name = "pages/polls/poll_detail.html"
     context_object_name = "poll"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        choices = self.object.choice_set.annotate(vote_count=Count('vote'))
+
+        context["choice_labels"] = json.dumps([choice.choice_text for choice in choices], ensure_ascii=False)
+        context["choice_counts"] = json.dumps([choice.vote_count for choice in choices])
+            
+        return context
+
     def get_queryset(self):
         return Poll.objects.filter(user=self.request.user).prefetch_related('choice_set')
 
@@ -40,7 +52,6 @@ class AddPollView(LoginRequiredMixin, CreateView):
         else:
             context['formset'] = ChoiceInlineFormSet()
         return context
-
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -71,6 +82,7 @@ class EditPollView(LoginRequiredMixin, UpdateView):
             context['formset'] = ChoiceInlineFormSet(self.request.POST, instance=self.object)
         else:
             context['formset'] = ChoiceInlineFormSet(instance=self.object)
+        
         return context
 
     def form_valid(self, form):
