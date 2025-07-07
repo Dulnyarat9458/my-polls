@@ -4,6 +4,14 @@
 {% block title %}{% translate "Polls" %}{% endblock title %}
 {% block main %}
   {% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'polls:index' %}">{% translate "Polls" %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'polls:detail' poll.id %}">{{ poll.question|truncatechars:30 }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{% translate "Edit Poll" %}</li>
+      </ol>
+    </nav>
+    <a href="{% url 'polls:detail' poll.id %}" class="btn btn-outline-secondary mb-3">&larr; {% translate "Back to Polls" %}</a>
     <h1>{% translate "Poll Edit" %}</h1>
     <p>{% translate "This is the Edit poll page." %}</p> 
     <p>{% translate "You can edit a new poll here." %}</p>

@@ -6,12 +6,18 @@
 
 {% block main %}
   {% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">{% translate "Polls" %}</li>
+      </ol>
+    </nav>
     <h1>{% translate "Poll list" %}</h1>
     <p>{% translate "This is the list of polls." %}</p>
     <p>{% translate "You can create, edit, and delete polls." %}</p>
-      <div class="text-end"><a href="{% url 'polls:add' %}">{% translate "Add a new poll" %}</a></div>
+    <div class="text-end"><a href="{% url 'polls:add' %}" class="btn btn-primary">{% translate "Add a new poll" %}</a></div>
+    <ul>
       {% for poll in polls %}
-        <li><a href="{% url 'polls:detail' poll.id %}">{{ poll.question }}</li>
+        <li><a href="{% url 'polls:detail' poll.id %}">{{ poll.question }}</a></li>
       {% empty %}
         <li>{% translate "No polls available." %}</li>
       {% endfor %}

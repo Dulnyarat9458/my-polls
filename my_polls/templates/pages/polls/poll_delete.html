@@ -4,13 +4,21 @@
 {% block title %}{% translate "Polls" %}{% endblock title %}
 {% block main %}
   {% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'polls:index' %}">{% translate "Polls" %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'polls:detail' poll.id %}">{{ poll.question|truncatechars:30 }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{% translate "Delete Poll" %}</li>
+      </ol>
+    </nav>
+    <a href="{% url 'polls:detail' poll.id %}" class="btn btn-outline-secondary mb-3">&larr; {% translate "Back to Poll Detail" %}</a>
     <h1>{% translate "Poll Delete" %}</h1>
     <p>{% translate "Are you sure you want to delete this poll?" %}</p>
     <form method="post" action="{% url 'polls:delete' poll.id %}">
       {% csrf_token %}
       <button type="submit" class="btn btn-danger">{% translate "Delete Poll" %}</button>
     </form>
-    <a class="btn btn-secondary" href="{% url 'polls:detail' poll.id %}">{% translate "Cancel" %}</a>
+    <a class="btn btn-secondary mt-2" href="{% url 'polls:detail' poll.id %}">{% translate "Cancel" %}</a>
   {% endblock content %}
 {% endblock main %}
 

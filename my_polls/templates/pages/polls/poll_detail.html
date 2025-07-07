@@ -6,6 +6,12 @@
 
 {% block main %}
 {% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'polls:index' %}">{% translate "Polls" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ poll.question|truncatechars:30 }}</li>
+  </ol>
+</nav>
 <h1>{% translate "Poll Detail" %}</h1>
 <p>{% translate "This is the detail page for a poll." %}</p>
 <p>{% translate "You can view the details of the poll here." %}</p>
@@ -36,19 +42,21 @@
       {% translate "Copy Vote URL" %}
     </button>
   </div>
-  <div class="text-end">
-    <a href="{% url 'votes:vote' poll.pk %}" target="_blank" class="btn btn-info">
-      {% translate "Vote Poll" %}
+  <div class="text-end d-flex justify-content-between align-items-center mt-4">
+    <a href="{% url 'polls:index' %}" class="btn btn-outline-secondary">
+      &larr; {% translate "Back to Polls" %}
     </a>
-    <a href="{% url 'polls:edit' poll.pk %}" class="btn btn-primary">
-      {% translate "Edit Poll" %}
-    </a>
-    <a href="{% url 'polls:delete' poll.pk %}" class="btn btn-danger">
-      {% translate "Delete Poll" %}
-    </a>
-    <a href="{% url 'polls:index' %}" class="btn btn-secondary">
-      {% translate "Back to Polls" %}
-    </a>
+    <div>
+      <a href="{% url 'votes:vote' poll.pk %}" target="_blank" class="btn btn-info">
+        {% translate "Vote Poll" %}
+      </a>
+      <a href="{% url 'polls:edit' poll.pk %}" class="btn btn-primary">
+        {% translate "Edit Poll" %}
+      </a>
+      <a href="{% url 'polls:delete' poll.pk %}" class="btn btn-danger">
+        {% translate "Delete Poll" %}
+      </a>
+    </div>
   </div>
   {% endblock content %}
   {% endblock main %}

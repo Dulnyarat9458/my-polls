@@ -4,34 +4,41 @@
 {% block title %}{% translate "Polls" %}{% endblock title %}
 {% block main %}
   {% block content %}
-    <h1>{% translate "Poll Add" %}</h1>
-    <p>{% translate "This is the add poll page." %}</p> 
-    <p>{% translate "You can create a new poll here." %}</p>
-    <form method="post" action="{% url 'polls:add' %}">
-      {% csrf_token %}
-      {{ form.question.label_tag }}
-      {{ form.question}}
-      {{ form.question.errors }}
-        <h3>Books</h3>
-      {{ formset.management_form }}
-      <div id="formset-container">
-        {% for sub_form in formset %}
-          <div class="formset-form mb-2">
-            {% for hidden_field in sub_form.hidden_fields %}
-              {{ hidden_field }}
-            {% endfor %}
-            {{ sub_form.choice_text.label_tag }}
-            {{ sub_form.choice_text}}
-            {{ sub_form.choice_text.errors }}
-          </div>
-        {% endfor %} 
-      </div>
-      <div class="formset-actions my-4">
-        <button type="button" id="add-choice-button">➕ เพิ่ม Choice</button>
-        <button type="button" id="remove-choice-button">➖ ลบ Choice สุดท้าย</button>
-      </div>
-      <button type="submit" class="btn btn-primary d-block" >{% translate "Create Poll" %}</button>
-    </form>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'polls:index' %}">{% translate "Polls" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% translate "Add Poll" %}</li>
+    </ol>
+  </nav>
+  <a href="{% url 'polls:index' %}" class="btn btn-outline-secondary mb-3">&larr; {% translate "Back to Polls" %}</a>
+  <h1>{% translate "Poll Add" %}</h1>
+  <p>{% translate "This is the add poll page." %}</p> 
+  <p>{% translate "You can create a new poll here." %}</p>
+  <form method="post" action="{% url 'polls:add' %}">
+    {% csrf_token %}
+    {{ form.question.label_tag }}
+    {{ form.question}}
+    {{ form.question.errors }}
+      <h3>Books</h3>
+    {{ formset.management_form }}
+    <div id="formset-container">
+      {% for sub_form in formset %}
+        <div class="formset-form mb-2">
+          {% for hidden_field in sub_form.hidden_fields %}
+            {{ hidden_field }}
+          {% endfor %}
+          {{ sub_form.choice_text.label_tag }}
+          {{ sub_form.choice_text}}
+          {{ sub_form.choice_text.errors }}
+        </div>
+      {% endfor %} 
+    </div>
+    <div class="formset-actions my-4">
+      <button type="button" id="add-choice-button">➕ เพิ่ม Choice</button>
+      <button type="button" id="remove-choice-button">➖ ลบ Choice สุดท้าย</button>
+    </div>
+    <button type="submit" class="btn btn-primary d-block" >{% translate "Create Poll" %}</button>
+  </form>
   {% endblock content %}
 {% endblock main %}
 
