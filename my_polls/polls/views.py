@@ -1,4 +1,6 @@
 import json
+import csv
+from datetime import datetime
 
 from django.shortcuts import render
 from django.views.generic import ListView
@@ -6,9 +8,10 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
+from django.utils.text import slugify
 
 from my_polls.polls.models import Poll, Choice
 from my_polls.polls.forms import PollModelForm
@@ -41,11 +44,7 @@ class PollDetailView(LoginRequiredMixin, DetailView):
         vote = self.request.build_absolute_uri(
             reverse("votes:vote", kwargs={"pk": self.object.pk})
         )
-        
-        print(f"Vote URL: {vote}")  # Debugging line to check the vote URL
         context["vote_url"] = vote
-        
-        
         return context
 
     def get_queryset(self):
@@ -76,7 +75,6 @@ class AddPollView(LoginRequiredMixin, CreateView):
             return redirect(self.success_url)
         else:
             return self.form_invalid(form)
-
 
 
 class EditPollView(LoginRequiredMixin, UpdateView):
@@ -128,3 +126,25 @@ class DeletePollView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return Poll.objects.filter(user=self.request.user)
+
+
+class PollVotesDownloadView(LoginRequiredMixin, DetailView):
+    model = Poll
+
+    def get_queryset(self):
+        return Poll.objects.filter(user=self.request.user)
+
+    def render_to_response(self, context, **response_kwargs):
+        poll = self.get_object()        
+        choices = poll.choice_set.annotate(vote_count=Count('vote'))\
+            .order_by('-vote_count', 'choice_text')
+        response = HttpResponse(content_type='text/csv')
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        safe_question = slugify(poll.question)
+        filename = f'poll-{poll.id}-votes-{now}.csv'
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        writer = csv.writer(response)
+        writer.writerow(['Choice', 'Vote Count'])
+        for choice in choices:
+            writer.writerow([choice.choice_text, choice.vote_count])
+        return response

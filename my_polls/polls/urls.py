@@ -11,4 +11,5 @@ urlpatterns = [
     path("<int:pk>/", view=views.PollDetailView.as_view(), name="detail"),
     path("<int:pk>/edit/", view=views.EditPollView.as_view(), name="edit"),
     path("<int:pk>/delete/", view=views.DeletePollView.as_view(), name="delete"),
+    path('<int:pk>/download/', view=views.PollVotesDownloadView.as_view(), name='download'),
 ]

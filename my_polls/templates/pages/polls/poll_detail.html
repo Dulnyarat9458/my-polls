@@ -50,6 +50,9 @@
       <a href="{% url 'votes:vote' poll.pk %}" target="_blank" class="btn btn-info">
         {% translate "Vote Poll" %}
       </a>
+      <a href="{% url 'polls:download' poll.pk %}" target="_blank" class="btn btn-success">
+        {% translate "Download Poll" %}
+      </a>
       <a href="{% url 'polls:edit' poll.pk %}" class="btn btn-primary">
         {% translate "Edit Poll" %}
       </a>
