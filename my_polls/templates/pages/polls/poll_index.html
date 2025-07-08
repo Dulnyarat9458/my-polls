@@ -6,11 +6,6 @@
 
 {% block main %}
   {% block content %}
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        {% comment %} <li class="breadcrumb-item active" aria-current="page">{% translate "Polls" %}</li> {% endcomment %}
-      </ol>
-    </nav>
 
     <div class="row mb-3">
       <div class="col-12 text-center">
@@ -18,10 +13,31 @@
       </div>
     </div>
     <div class="row d-flex justify-content-end align-items-center mb-4 g-2">
-      <div class="col-12 col-md-auto d-flex justify-content-md-end gap-2">
-        <a href="{% url 'polls:add' %}" class="btn btn-primary w-100 w-md-auto">{% translate "Add a new poll" %}</a>
+      <div class="col-12 col-md-auto d-flex justify-content-end gap-2">
+        <a href="{% url 'polls:add' %}" class="btn btn-primary w-md-auto">{% translate "Add a new poll" %}</a>
       </div>
     </div>
+    <form method="get" class="row g-2 align-items-end justify-content-end mb-4">
+      <div class="col-sm-6 col-md-4">
+        <label for="order" class="form-label">{% translate "Order by" %}</label>
+        <select id="order" name="order" class="form-select" onchange="this.form.submit()">
+          <option value="updated" {% if request.GET.order == "updated" %}selected{% endif %}>{% translate "Updated (newest first)" %}</option>
+          <option value="updated_asc" {% if request.GET.order == "updated_asc" %}selected{% endif %}>{% translate "Updated (oldest first)" %}</option>
+          <option value="question" {% if request.GET.order == "question" %}selected{% endif %}>{% translate "Question A-Z" %}</option>
+        </select>
+      </div>
+
+      <div class="col-sm-6 col-md-4">
+        <label for="search" class="form-label">{% translate "Search" %}</label>
+        <div class="input-group">
+          <input type="text" id="search" name="search" value="{{ request.GET.search }}" class="form-control" placeholder="{% translate 'Search by question' %}">
+          <button type="submit" class="btn btn-secondary">{% translate "Search" %}</button>
+        </div>
+      </div>
+    </form>
+
+
+
     <ul class="list-unstyled">
       {% for poll in polls %}
         <li>
@@ -35,9 +51,46 @@
           </a>
         </li>
       {% empty %}
-        <li>{% translate "No polls available." %}</li>
+        <li class="my-5 text-center">{% translate "No polls available." %}</li>
       {% endfor %}
     </ul>
+    <div class="my-4 d-flex justify-content-center">
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{{ preserved_query }}{% if preserved_query %}&{% endif %}page=1" aria-label="First">&laquo;&laquo;</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{{ preserved_query }}{% if preserved_query %}&{% endif %}page={{ page_obj.previous_page_number }}" aria-label="Previous">&laquo;</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+          {% endif %}
+
+          <li class="page-item disabled">
+            <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+          </li>
+
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{{ preserved_query }}{% if preserved_query %}&{% endif %}page={{ page_obj.next_page_number }}" aria-label="Next">&raquo;</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{{ preserved_query }}{% if preserved_query %}&{% endif %}page={{ page_obj.paginator.num_pages }}" aria-label="Last">&raquo;&raquo;</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+
+
+
+    </div>
   {% endblock content %}
 {% endblock main %}
 

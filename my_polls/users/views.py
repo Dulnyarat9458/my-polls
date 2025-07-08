@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.db.models import QuerySet
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _

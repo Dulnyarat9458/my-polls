@@ -12,6 +12,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.utils.text import slugify
+from django.contrib import messages
 
 from my_polls.polls.models import Poll, Choice
 from my_polls.polls.forms import PollModelForm
@@ -21,9 +22,31 @@ from my_polls.polls.formsets import ChoiceInlineFormSet
 class PollsView(LoginRequiredMixin, ListView):
     template_name = "pages/polls/poll_index.html"
     context_object_name = "polls"
+    paginate_by = 10
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        querydict = self.request.GET.copy()
+        querydict.pop('page', None)
+        preserved_query = querydict.urlencode()
+        context['preserved_query'] = preserved_query
+        return context
 
     def get_queryset(self):
-        return Poll.objects.filter(user=self.request.user)
+        search = self.request.GET.get('search')
+        order = self.request.GET.get('order')
+        polls = Poll.objects.filter(user=self.request.user)
+        if search:
+            polls = polls.filter(question__icontains=search)
+        if order == 'updated':
+            polls = polls.order_by('-updated_at')
+        elif order == 'updated_asc':
+            polls = polls.order_by('updated_at')
+        elif order == 'question':
+            polls = polls.order_by('question')
+        else:
+            polls = polls.order_by('-updated_at')
+        return polls
 
 
 class PollDetailView(LoginRequiredMixin, DetailView):
@@ -72,6 +95,7 @@ class AddPollView(LoginRequiredMixin, CreateView):
             self.object = form.save()
             formset.instance = self.object
             formset.save()
+            messages.success(self.request, "Poll successfully added!")
             return redirect(self.success_url)
         else:
             return self.form_invalid(form)
@@ -81,7 +105,10 @@ class EditPollView(LoginRequiredMixin, UpdateView):
     template_name = "pages/polls/poll_edit.html"
     context_object_name = "poll"
     form_class = PollModelForm
-    success_url = reverse_lazy("polls:index")
+    
+    def get_success_url(self):
+        messages.success(self.request, "Poll successfully updated!")
+        return reverse_lazy("polls:detail", kwargs={"pk": self.object.pk})
 
     def get_queryset(self):
         return Poll.objects.filter(user=self.request.user)
@@ -113,7 +140,7 @@ class EditPollView(LoginRequiredMixin, UpdateView):
                     submitted_ids.add(instance.pk)
             Choice.objects.filter(poll=self.object).exclude(pk__in=submitted_ids).delete()
             formset.save()
-            return redirect(self.success_url)
+            return redirect(self.get_success_url())
         else:
             return self.form_invalid(form)
 
@@ -123,6 +150,10 @@ class DeletePollView(LoginRequiredMixin, DeleteView):
     context_object_name = "poll"
     model = Poll
     success_url = reverse_lazy("polls:index")
+
+    def get_success_url(self):
+        messages.success(self.request, "Poll successfully deleted!")
+        return self.success_url
 
     def get_queryset(self):
         return Poll.objects.filter(user=self.request.user)

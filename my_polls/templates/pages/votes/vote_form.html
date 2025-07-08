@@ -21,25 +21,4 @@
 
 {% block inline_javascript %}
 <script src="{% static 'js/polls/formset_controller.js' %}"></script>
-
-{% if messages %}
-  {% for message in messages %}
-    {% if forloop.first %}
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: "{{ message|escapejs }}",
-            confirmButtonText: 'Close',
-            confirmButtonColor: '#d33'
-          });
-        });
-      </script>
-    {% endif %}
-  {% endfor %}
-{% endif %}
-
-
-
 {% endblock inline_javascript %}

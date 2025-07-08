@@ -37,6 +37,7 @@ class VoteView(SingleObjectMixin, FormView):
         return kwargs
 
     def get_success_url(self):
+        messages.success(self.request, "Voting successful!")
         return reverse_lazy("votes:vote", kwargs={"pk": self.object.pk})
     
     def form_valid(self, form):
