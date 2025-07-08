@@ -4,20 +4,42 @@
 {% block title %}{% translate "Polls" %}{% endblock title %}
 {% block main %}
   {% block content %}
-    <h1>{% translate "Poll Vote" %}</h1>
-    <p>{% translate "This is the vote page." %}</p> 
-    <p>{% translate "You can vote here." %}</p>
     <form method="post">
       {% csrf_token %}
       {{ form.non_field_errors }}
       <label for="choice">{{ object.question }}</label>
       {{ form.choice}}
       {{ form.choice.errors }}
-      <button type="submit" class="btn btn-primary d-block" >{% translate "Vote" %}</button>
+      {% if object.is_closed %}
+        This poll is closed. Voting is disabled.
+      {% else %}
+        <button type="submit" class="btn btn-primary d-block" >{% translate "Vote" %}</button>
+      {% endif %}
     </form>
   {% endblock content %}
 {% endblock main %}
 
 {% block inline_javascript %}
 <script src="{% static 'js/polls/formset_controller.js' %}"></script>
+
+{% if messages %}
+  {% for message in messages %}
+    {% if forloop.first %}
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "{{ message|escapejs }}",
+            confirmButtonText: 'Close',
+            confirmButtonColor: '#d33'
+          });
+        });
+      </script>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+
+
 {% endblock inline_javascript %}

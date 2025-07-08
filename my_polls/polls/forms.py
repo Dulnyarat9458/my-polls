@@ -6,7 +6,7 @@ from my_polls.polls.models import Poll, Choice
 class PollModelForm(forms.ModelForm):
     class Meta:
         model = Poll
-        fields = ['question']
+        fields = ['question', 'is_closed']
         widgets = {
             'question': forms.TextInput(attrs={'class': 'form-control'}),
         }

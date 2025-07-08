@@ -97,7 +97,7 @@
       {% endif %}
     </div>
     <div class="container flex-grow-1">
-      {% if messages %}
+      {% comment %} {% if messages %}
       {% for message in messages %}
       <div
         class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
@@ -108,7 +108,7 @@
           aria-label="Close"></button>
       </div>
       {% endfor %}
-      {% endif %}
+      {% endif %} {% endcomment %}
       {% block main %}
       {% block content %}
       <p>Use this document as a way to quick start any new project.</p>

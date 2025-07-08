@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView
 from django.views.generic.detail import SingleObjectMixin
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 from my_polls.polls.models import Poll
 from my_polls.votes.forms import VoteForm
@@ -39,6 +41,10 @@ class VoteView(SingleObjectMixin, FormView):
     
     def form_valid(self, form):
         poll = self.get_object()
+        if poll.is_closed:
+            messages.error(self.request, "This poll is closed. Voting is disabled.")
+            return HttpResponseRedirect(reverse_lazy("votes:vote", kwargs={"pk": self.object.pk}))
+        
         user = self.request.user
         vote, created = Vote.objects.update_or_create(
             user=user,

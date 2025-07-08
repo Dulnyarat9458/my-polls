@@ -47,6 +47,11 @@
           <button type="button" id="remove-choice-button" class="w-100 btn btn-outline-danger my-2">Remove</button>
         </div>
       </div>
+      <div class="mb-3">
+        {{ form.is_closed.label_tag }}
+        {{ form.is_closed }}
+        {{ form.is_closed.errors }}
+      </div>
       <button type="submit" class="btn btn-success w-100">{% translate "Create Poll" %}</button>
     </form>
   {% endblock content %}

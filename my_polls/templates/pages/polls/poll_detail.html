@@ -25,6 +25,9 @@
     <h1 class="mb-0">{{ poll.question }}</h1>
   </div>
 </div>
+{% if poll.is_closed %}
+  <div class="alert alert-warning text-center">{% translate "This poll is closed. Voting is disabled." %}</div>
+{% endif %}
 <div class="poll-detail">
   <div class="row">
     <div class="col-md-6 d-flex justify-content-center align-items-center">
