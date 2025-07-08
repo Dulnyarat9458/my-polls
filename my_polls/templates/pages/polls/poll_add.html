@@ -21,12 +21,12 @@
       </div>
     </div>
 
-    <form method="post" class="max-w-400 mx-auto">
+    <form method="post" class="max-w-400 mx-auto mb-5">
       {% csrf_token %}
       {{ form.question.label_tag }}
       {{ form.question}}
       {{ form.question.errors }}
-      <div class="my-3">Choices</div>
+      <label class="my-3">Choices:</label>
       {{ formset.management_form }}
       <div id="formset-container">
         {% for sub_form in formset %}

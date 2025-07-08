@@ -1,30 +1,27 @@
 {% extends "base.html" %}
-
+{% load i18n %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}
-
-
-  {{ user.name }}
-
-
+  {{ user.email }}
 {% endblock title %}
 {% block content %}
-  <h1>
-  
-  
-    {{ user.name }}
-  
-  
-</h1>
-<form class="form-horizontal"
+<nav aria-label="breadcrumb border-bottom" class="breadcrumb-panel">
+  <ol class="breadcrumb mt-3">
+    <li class="breadcrumb-item"><a href="{% url 'polls:index' %}">{% translate "Polls" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% translate "My Profile" %}</li>
+  </ol>
+</nav>
+<form class="form-horizontal max-w-400 mx-auto"
       method="post"
       action="{% url 'users:update' %}">
   {% csrf_token %}
+  <h1 class="text-center">My Profile</h1>
   {{ form|crispy }}
   <div class="control-group">
     <div class="controls">
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" class="btn btn-primary w-100">Update</button>
     </div>
   </div>
 </form>
