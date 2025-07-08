@@ -30,11 +30,22 @@
 {% endif %}
 <div class="poll-detail">
   <div class="row">
-    <div class="col-md-6 d-flex justify-content-center align-items-center">
-      <canvas id="voted-chart-bar"></canvas>
+    <div class="col-md-6">
+      <h3>{% translate "Choices" %}</h3>
+      <ul class="list-group mb-5">
+        {% for data in choice_data %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">{{ data.label }}</span>
+            <span class="badge bg-primary rounded-pill">{{ data.count }}</span>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
     <div class="col-md-6 d-flex justify-content-center align-items-center">
-      <canvas id="voted-chart-pie"></canvas>
+      <div id="chart-wrapper">
+        <canvas id="voted-chart-pie"></canvas>
+      </div>
+
     </div>
   </div>
   <div class="my-5">
@@ -72,10 +83,7 @@
 {% endblock main %}
 
 {% block inline_javascript %}
-<script id="labels-data"
-    type="application/json">{{ choice_labels|safe }}</script>
-  <script id="counts-data"
-    type="application/json">{{ choice_counts|safe }}</script>
+  {{ choice_data|json_script:"choice-data" }}
   <script>
   window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('copy-btn').onclick = function() {
@@ -89,59 +97,44 @@
       });
     };
 
-    const choice_labels = JSON.parse(document.getElementById("labels-data").textContent);
-    const choice_counts = JSON.parse(document.getElementById("counts-data").textContent);
-
-    const ctxb = document.getElementById('voted-chart-bar');
-    new Chart(ctxb, {
-      type: 'bar',
-      data: {
-        labels: choice_labels,
-        datasets: [{
-          label: 'Votes',
-          data: choice_counts,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              stepSize: 10
-            },
-          }
-        }
-      }
-    });
-    const ctxp = document.getElementById('voted-chart-pie');
-    new Chart(ctxp, {
-      type: 'pie',
-      data: {
-        labels: choice_labels,
-        datasets: [{
-          label: '# of Votes',
-          data: choice_counts,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                const data = context.dataset.data;
-                const total = data.reduce((acc, val) => acc + val, 0);
-                const value = context.raw;
-                const percentage = ((value / total) * 100).toFixed(1);
-                return `${context.label}: ${value} (${percentage}%)`;
+    const choiceData = JSON.parse(document.getElementById("choice-data").textContent);
+    const labels = choiceData.map(item => item.label);
+    const counts = choiceData.map(item => item.count);
+    const allZero = counts.every(value => value === 0);
+    if (!allZero) {
+      const ctxp = document.getElementById('voted-chart-pie');
+      new Chart(ctxp, {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '# of Votes',
+            data: counts,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const data = context.dataset.data;
+                  const total = data.reduce((acc, val) => acc + val, 0);
+                  const value = context.raw;
+                  const percentage = ((value / total) * 100).toFixed(1);
+                  return `${context.label}: ${value} (${percentage}%)`;
+                }
               }
             }
-          }
-        },
+          },
 
-      }
-    });
+        }
+      });
+    }else{
+      const ctxp = document.getElementById('chart-wrapper');
+      ctxp.innerHTML = '<p class="text-center text-muted">{% translate "No votes yet." %}</p>';
+    }
+
   });
 </script>
 {% endblock inline_javascript %}

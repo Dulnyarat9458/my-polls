@@ -56,14 +56,14 @@ class PollDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         choices = self.object.choice_set.annotate(vote_count=Count('vote'))
-        context["choice_labels"] = json.dumps(
-            [choice.choice_text for choice in choices], 
-            ensure_ascii=False
-        )
-        context["choice_counts"] = json.dumps(
-            [choice.vote_count for choice in choices]
-        )
         
+        
+        choice_data = [
+            {"label": choice.choice_text, "count": choice.vote_count}
+            for choice in choices
+        ]
+        context["choice_data"] = choice_data
+                
         vote = self.request.build_absolute_uri(
             reverse("votes:vote", kwargs={"pk": self.object.pk})
         )
