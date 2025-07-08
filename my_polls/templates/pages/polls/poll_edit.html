@@ -4,8 +4,8 @@
 {% block title %}{% translate "Polls" %}{% endblock title %}
 {% block main %}
   {% block content %}
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
+    <nav aria-label="breadcrumb" class="breadcrumb-panel">
+      <ol class="breadcrumb mt-3">
         <li class="breadcrumb-item"><a href="{% url 'polls:index' %}">{% translate "Polls" %}</a></li>
         <li class="breadcrumb-item"><a href="{% url 'polls:detail' poll.id %}">{{ poll.question|truncatechars:30 }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{% translate "Edit Poll" %}</li>
@@ -21,14 +21,12 @@
         <h1 class="mb-0">{% translate "Poll Edit" %}</h1>
       </div>
     </div>
-    <p>{% translate "This is the Edit poll page." %}</p> 
-    <p>{% translate "You can edit a new poll here." %}</p>
-    <form method="post">
+    <form method="post" class="max-w-400 mx-auto">
       {% csrf_token %}
       {{ form.question.label_tag }}
       {{ form.question}}
       {{ form.question.errors }}
-        <h3>Books</h3>
+      <div class="mt-3">Choices:</div>
       {{ formset.management_form }}
       <div id="formset-container">
         {% for sub_form in formset %}
@@ -36,17 +34,20 @@
             {% for hidden_field in sub_form.hidden_fields %}
               {{ hidden_field }}
             {% endfor %}
-            {{ sub_form.choice_text.label_tag }}
             {{ sub_form.choice_text}}
             {{ sub_form.choice_text.errors }}
           </div>
         {% endfor %} 
       </div>
-      <div class="formset-actions my-4">
-        <button type="button" id="add-choice-button">➕ เพิ่ม Choice</button>
-        <button type="button" id="remove-choice-button">➖ ลบ Choice สุดท้าย</button>
+      <div class="formset-actions my-4 row">
+        <div class="col-md-6">
+          <button type="button" id="add-choice-button" class="w-100 btn btn-outline-dark my-2">Add</button>
+        </div>
+        <div class="col-md-6">
+          <button type="button" id="remove-choice-button" class="w-100 btn btn-outline-danger my-2">Remove</button>
+        </div>
       </div>
-      <button type="submit" class="btn btn-success">{% translate "Save Changes" %}</button>
+      <button type="submit" class="btn btn-success w-100">{% translate "Save Changes" %}</button>
     </form>
   {% endblock content %}
 {% endblock main %}

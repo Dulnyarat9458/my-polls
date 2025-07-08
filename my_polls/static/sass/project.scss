@@ -47,3 +47,26 @@ $red: #b94a48;
   font-size: 0.875rem;
   margin-top: 0.5rem;
 }
+
+.list-unstyled{
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.breadcrumb-panel {
+  background-color: transparent;
+  padding: 0;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 20px;
+}
+
+.breadcrumb-item{
+  a{
+    text-decoration: none;
+  }
+}
+
+.max-w-400 {
+  max-width: 400px;
+}

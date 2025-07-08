@@ -6,17 +6,18 @@
 
 {% block main %}
 {% block content %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
+<nav aria-label="breadcrumb" class="breadcrumb-panel">
+  <ol class="breadcrumb mt-3">
     <li class="breadcrumb-item"><a href="{% url 'polls:index' %}">{% translate "Polls" %}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ poll.question|truncatechars:30 }}</li>
   </ol>
 </nav>
-<div class="row align-items-center mb-2 g-2">
+<div class="row justify-content-between align-items-center mb-2 g-2">
   <div class="col-12 col-md-auto mb-2 mb-md-0 d-flex justify-content-md-start justify-content-center">
     <a href="{% url 'polls:index' %}" class="btn btn-outline-secondary w-100">&larr; {% translate "Back to Polls" %}</a>
   </div>
   <div class="col-12 col-md-auto d-flex justify-content-md-end justify-content-center gap-2">
+    <a href="{% url 'polls:download' poll.id %}" class="btn btn-info w-100 w-md-auto">{% translate "Download" %}</a>
     <a href="{% url 'polls:edit' poll.id %}" class="btn btn-warning w-100 w-md-auto">{% translate "Edit" %}</a>
     <a href="{% url 'polls:delete' poll.id %}" class="btn btn-danger w-100 w-md-auto">{% translate "Delete" %}</a>
   </div>
@@ -35,7 +36,7 @@
       <canvas id="voted-chart-pie"></canvas>
     </div>
   </div>
-  <div class="mt-5">
+  <div class="mt-5 text-end">
     <p>Published on: {{ poll.created_at|date:"Y-m-d H:i" }}</p>
   </div>
   <div>

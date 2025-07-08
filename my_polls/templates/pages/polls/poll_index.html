@@ -17,17 +17,23 @@
         <h1 class="mb-0">{% translate "Poll list" %}</h1>
       </div>
     </div>
-    <div class="row d-flex justify-content-end align-items-center mb-2 g-2">
+    <div class="row d-flex justify-content-end align-items-center mb-4 g-2">
       <div class="col-12 col-md-auto d-flex justify-content-md-end gap-2">
         <a href="{% url 'polls:add' %}" class="btn btn-primary w-100 w-md-auto">{% translate "Add a new poll" %}</a>
       </div>
     </div>
-
-    <p>{% translate "This is the list of polls." %}</p>
-    <p>{% translate "You can create, edit, and delete polls." %}</p>
-    <ul>
+    <ul class="list-unstyled">
       {% for poll in polls %}
-        <li><a href="{% url 'polls:detail' poll.id %}">{{ poll.question }}</a></li>
+        <li>
+          <a href="{% url 'polls:detail' poll.id %}" class="text-decoration-none">
+            <div class="card mb-2 p-3">
+              <div class="row">
+                <strong class="d-block col-md-6">{{poll.question}}</strong>
+                <small class="text-end col-md-6">Updated At: {{poll.updated_at}}</small>
+              </div>              
+            </div>
+          </a>
+        </li>
       {% empty %}
         <li>{% translate "No polls available." %}</li>
       {% endfor %}
