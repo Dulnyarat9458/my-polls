@@ -7,6 +7,7 @@
 <form method="POST" action="{% url 'account_signup' %}" class="auth-panel">
     <h2 class="text-center">{{ _("Sign Up") }}</h2>
     {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
     <div class="mb-3">
         {{ form.first_name.label_tag }}
         {{ form.first_name|add_class:"form-control" }}

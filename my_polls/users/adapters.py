@@ -25,6 +25,14 @@ class AccountAdapter(DefaultAccountAdapter):
         from django.urls import reverse
 
         return reverse("account_login")
+    
+    def get_login_redirect_url(self, request):
+        next_url = get_next_redirect_url(request)
+        print("next")
+        print(self.request.GET)
+        if next_url:
+            return next_url
+        return resolve_url(settings.LOGIN_REDIRECT_URL)
 
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):

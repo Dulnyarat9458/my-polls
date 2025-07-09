@@ -37,14 +37,18 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 user_update_view = UserUpdateView.as_view()
 
 
-class UserRedirectView(LoginRequiredMixin, RedirectView):
-    permanent = False
+# class UserRedirectView(LoginRequiredMixin, RedirectView):
+#     permanent = False
 
-    def get_redirect_url(self):
-        next_url = self.request.GET.get("next")
-        if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={self.request.get_host()}):
-            return next_url
-        return reverse("polls:index")
+#     def get_redirect_url(self):
+#         next_url = self.request.GET.get("next")
+        
+#         print("===")
+#         print(next_url)
+#         print("===")
+#         if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={self.request.get_host()}):
+#             return next_url
+#         return reverse("polls:index")
 
 
-user_redirect_view = UserRedirectView.as_view()
+# user_redirect_view = UserRedirectView.as_view()
