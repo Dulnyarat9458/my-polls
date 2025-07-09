@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView
 from django.views.generic.detail import SingleObjectMixin
@@ -18,12 +18,20 @@ class VoteView(SingleObjectMixin, FormView):
     
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if request.user.is_anonymous:
+            next_url = request.get_full_path()
+            login_url = f"{reverse('account_login')}?next={next_url}"
+            return redirect(login_url)
         return super().dispatch(request, *args, **kwargs)
     
     def get_initial(self):
         initial = super().get_initial()
         poll = self.get_object()
         user = self.request.user
+        
+        if user.is_anonymous:
+            return redirect('accounts:login')
+        
         try:
             vote = Vote.objects.get(choice__poll=poll, user=user)
             initial['choice'] = vote.choice

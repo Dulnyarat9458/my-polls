@@ -4,7 +4,11 @@ import typing
 
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from allauth.account.utils import get_next_redirect_url
+
 from django.conf import settings
+from django.shortcuts import resolve_url
+
 
 if typing.TYPE_CHECKING:
     from allauth.socialaccount.models import SocialLogin
