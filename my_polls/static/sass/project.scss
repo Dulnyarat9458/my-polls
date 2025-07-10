@@ -76,3 +76,13 @@ $red: #b94a48;
 label{
   font-weight: 600;
 }
+
+.navbar-toggler{
+  padding: 0;
+  border: 0;
+
+  &:focus{
+    box-shadow: none;
+    outline: none;
+  }
+}
