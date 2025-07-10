@@ -16,6 +16,8 @@ This is a polls app for creating polls and voting.
 - Django (Cookiecutter Django)
 - Bootstrap
 - Sweet Alert 2
+- Chart.js
+- PostgresSQL
 
 ## Settings
 
