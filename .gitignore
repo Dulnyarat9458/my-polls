@@ -280,3 +280,4 @@ vendors.js
 .env
 .envs/*
 !.envs/.local/
+!.envs/.production.example/
