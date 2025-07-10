@@ -23,7 +23,7 @@ Moved to [settings](https://cookiecutter-django.readthedocs.io/en/latest/1-getti
 
 ## Basic Commands
 
-See [local development commands][https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally-docker.html]
+See local development commands: [https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally-docker.html]
 
 ### Live reloading and Sass CSS compilation
 
