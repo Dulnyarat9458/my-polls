@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% translate "Polls" %}{% endblock title %}
+{% block main %}
+{% block content %}
+<nav aria-label="breadcrumb" class="breadcrumb-panel">
+  <ol class="breadcrumb mt-3">
+    <li class="breadcrumb-item"><a href="{% url 'polls:index' %}">{% translate "Polls" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ poll.question|truncatechars:30 }}</li>
+  </ol>
+</nav>
+<div class="row justify-content-between align-items-center mb-2 g-2">
+  <div class="col-12 col-md-6 mb-2 mb-md-0 d-flex justify-content-start">
+    <a href="{% url 'polls:index' %}" class="btn btn-outline-secondary">&larr; {% translate "Back to Polls" %}</a>
+  </div>
+  <div class="col-12 col-md-6 text-end">
+    <small class="mb-2 text-secondary">Published on: {{ poll.created_at|date:"Y-m-d H:i" }}</small>
+  </div>
+</div>
+<div class="row mb-3">
+  <div class="col-12 text-center">
+    <h1 class="mb-0">{{ poll.question }}</h1>
+  </div>
+</div>
+{% if poll.is_closed %}
+  <div class="alert alert-warning text-center">{% translate "This poll is closed. Voting is disabled." %}</div>
+{% endif %}
+<div class="poll-detail">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>{% translate "Choices" %}</h3>
+      <ul class="list-group mb-5">
+        {% for data in choice_data %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">{{ data.label }}</span>
+            <span class="badge bg-primary rounded-pill">{{ data.count }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-md-6 d-flex justify-content-center align-items-center">
+      <div id="chart-wrapper">
+        <canvas id="voted-chart-pie"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="my-5">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="vote-url">{% translate "Vote URL:" %}</label>
+        <div class="input-group mb-2">
+          <input type="text" id="vote-url" value="{{ vote_url }}" readonly class="form-control">
+          <button type="button" class="btn btn-outline-secondary" id="copy-btn">{% translate "Copy" %}</button>
+        </div>
+        <small class="form-text text-muted">{% translate "You can share this URL to allow others to vote." %}</small>
+        <a href="{{ vote_url }}" target="_blank">{% translate "Go to Vote" %}</a>
+        <br><br>       
+      </div>
+      <div class="col-md-6">
+        <label>{% translate "Menu:" %}</label>
+        <div class="d-flex gap-1 flex-wrap">
+          <a href="{% url 'polls:download' poll.id %}" class="btn btn-outline-secondary py-1 flex-fill d-flex align-items-center justify-content-center px-2 py-1">
+            {% translate "Download" %}
+          </a>
+          <a href="{% url 'polls:edit' poll.id %}" class="btn btn-outline-secondary py-1 flex-fill d-flex align-items-center justify-content-center px-2 py-1">
+            {% translate "Edit" %}
+          </a>
+          <a href="{% url 'polls:delete' poll.id %}" class="btn btn-outline-danger py-1 flex-fill d-flex align-items-center justify-content-center px-2 py-1">
+            {% translate "Delete" %}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% endblock main %}
+{% block inline_javascript %}
+  {{ choice_data|json_script:"choice-data" }}
+  <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('copy-btn').onclick = function() {
+      navigator.clipboard.writeText(document.getElementById('vote-url').value).then(function() {
+        Swal.fire({
+          icon: 'success',
+          title: '{% translate "Copied!" %}',
+          showConfirmButton: false,
+          timer: 1200
+        });
+      });
+    };
+    const choiceData = JSON.parse(document.getElementById("choice-data").textContent);
+    const labels = choiceData.map(item => item.label);
+    const counts = choiceData.map(item => item.count);
+    const allZero = counts.every(value => value === 0);
+    if (!allZero) {
+      const ctxp = document.getElementById('voted-chart-pie');
+      new Chart(ctxp, {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '# of Votes',
+            data: counts,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const data = context.dataset.data;
+                  const total = data.reduce((acc, val) => acc + val, 0);
+                  const value = context.raw;
+                  const percentage = ((value / total) * 100).toFixed(1);
+                  return `${context.label}: ${value} (${percentage}%)`;
+                }
+              }
+            }
+          },
+
+        }
+      });
+    }else{
+      const ctxp = document.getElementById('chart-wrapper');
+      ctxp.innerHTML = '<p class="text-center text-muted">{% translate "No votes yet." %}</p>';
+    }
+  });
+</script>
+{% endblock inline_javascript %}

@@ -1,14 +1,14 @@
 {
-  "name": "my_diary",
+  "name": "my_polls",
   "version": "0.1.0",
   "devDependencies": {
     "@popperjs/core": "^2.10.2",
     "autoprefixer": "^10.4.0",
     "bootstrap": "^5.2.3",
     "browser-sync": "^3.0.2",
-    "gulp-concat": "^2.6.1",
     "cssnano": "^7.0.0",
     "gulp": "^5.0.0",
+    "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^9.1.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^10.0.0",
@@ -29,5 +29,9 @@
   "scripts": {
     "dev": "gulp",
     "build": "gulp build"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.0",
+    "sweetalert2": "^11.22.2"
   }
 }

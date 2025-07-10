@@ -1,6 +1,6 @@
 volumes:
-  my_diary_local_postgres_data: {}
-  my_diary_local_postgres_data_backups: {}
+  my_polls_local_postgres_data: {}
+  my_polls_local_postgres_data_backups: {}
   
 
 services:
@@ -8,8 +8,8 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: my_diary_local_django
-    container_name: my_diary_local_django
+    image: my_polls_local_django
+    container_name: my_polls_local_django
     depends_on:
       - postgres
     volumes:
@@ -25,11 +25,11 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: my_diary_production_postgres
-    container_name: my_diary_local_postgres
+    image: my_polls_production_postgres
+    container_name: my_polls_local_postgres
     volumes:
-      - my_diary_local_postgres_data:/var/lib/postgresql/data
-      - my_diary_local_postgres_data_backups:/backups
+      - my_polls_local_postgres_data:/var/lib/postgresql/data
+      - my_polls_local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
 
@@ -37,8 +37,8 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/node/Dockerfile
-    image: my_diary_local_node
-    container_name: my_diary_local_node
+    image: my_polls_local_node
+    container_name: my_polls_local_node
     depends_on:
       - django
     volumes:

@@ -4,10 +4,10 @@ from django.contrib import admin
 from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView,  RedirectView
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("", RedirectView.as_view(pattern_name='polls:index'), name="home"),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
@@ -16,7 +16,9 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("users/", include("my_diary.users.urls", namespace="users")),
+    path("users/", include("my_polls.users.urls", namespace="users")),
+    path("polls/", include("my_polls.polls.urls", namespace="polls")),
+    path("votes/", include("my_polls.votes.urls", namespace="votes")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
     # ...

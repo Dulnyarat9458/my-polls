@@ -1,0 +1,171 @@
+{% load static i18n %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>
+      {% block title %}
+      My Polls
+      {% endblock title %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+      content="this is my polls" />
+    <meta name="author"
+      content="Dulnyarat" />
+    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
+    {% block css %}
+    <!-- Your stuff: Third-party CSS libraries go here -->
+    <!-- This file stores project-specific CSS -->
+
+    <link href="{% static 'css/project.min.css' %}" rel="stylesheet" />
+
+    {% endblock css %}
+    <!-- Le javascript
+    ================================================== -->
+    {# Placed at the top of the document so pages load faster with defer #}
+    {% block javascript %}
+
+    <!-- Vendor dependencies bundled as one file -->
+    <script defer src="{% static 'js/vendors.min.js' %}"></script>
+
+    <!-- place project specific Javascript in this file -->
+
+    <script defer src="{% static 'js/project.min.js' %}"></script>
+    {% endblock javascript %}
+  </head>
+  <body class="{% block bodyclass %}{% endblock bodyclass %} d-flex flex-column min-vh-100">
+    {% block body %}
+    <div class="mb-1 flex-shrink-0 sticky-top">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container d-flex justify-content-start">
+          {% if request.user.is_authenticated %}
+            <button class="navbar-toggler navbar-toggler-right me-4"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          {% endif %}
+          <a class="navbar-brand" href="{% url 'home' %}">My Polls</a>
+          {% if request.user.is_authenticated %}
+            <div class="collapse navbar-collapse justify-content-end"
+              id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    href="{% url 'users:update' %}">
+                    {% comment %} href="{% url 'users:detail' request.user.pk %}">
+                    {% endcomment %}
+                    {% translate "My Profile" %}
+                  </a>
+                </li>
+                <li class="nav-item">
+                  {# URL provided by django-allauth/account/urls.py #}
+                  <form method="POST" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    <input
+                      type="submit"
+                      class="nav-link text-danger"
+                      value="{% translate 'Sign Out' %}" />
+                  </form>
+                </li>
+                {% else %}
+                {% if ACCOUNT_ALLOW_REGISTRATION %}
+                <li class="nav-item">
+                  {# URL provided by django-allauth/account/urls.py #}
+                  <a id="sign-up-link" class="nav-link"
+                    href="{% url 'account_signup' %}">{% translate "Sign Up"
+                    %}</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                  {# URL provided by django-allauth/account/urls.py #}
+                  <a id="log-in-link" class="nav-link"
+                    href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+    <div class="container flex-grow-1 {% block containerclass %}{% endblock containerclass %}">
+      {% block main %}
+      {% block content %}
+      {% endblock content %}
+      {% endblock main %}
+    </div>
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-auto border-top bg-dark">
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-center text-white">
+          © 2025 Dulnyarat, Inc — This website is created for portfolio purposes only.
+        </div>
+      </div>
+    </footer>
+    {% endblock body %}
+    <!-- /container -->
+    {% block modal %}
+    {% endblock modal %}
+    {% block inline_javascript %}
+    {% comment %}
+    Script tags with only code, no src (defer by default). To run
+    with a "defer" so that you run inline code:
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        /* Run whatever you want */
+      });
+    </script>
+    {% endcomment %}
+    {% endblock inline_javascript %}
+
+    {% if form.non_field_errors %}
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              Swal.fire({
+                  title: '{{ _("Error") }}',
+                  text: '{{ form.non_field_errors|join:", " }}',
+                  icon: 'error',
+                  confirmButtonText: '{{ _("Got it!") }}'
+              });
+          });
+      </script>
+    {% endif %}
+    {% if messages %}
+      {% for message in messages %}
+        {% if "error" in message.tags and forloop.first %}
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "{{ message|escapejs }}",
+                confirmButtonText: 'Close',
+                confirmButtonColor: '#d33'
+              });
+            });
+          </script>
+        {% else %}
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ message|escapejs }}",
+                confirmButtonText: 'Close',
+                confirmButtonColor: 'green'
+              });
+            });
+          </script>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </body>
+</html>

@@ -7,8 +7,8 @@ from pathlib import Path
 import environ
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
-# my_diary/
-APPS_DIR = BASE_DIR / "my_diary"
+# my_polls/
+APPS_DIR = BASE_DIR / "my_polls"
 env = environ.Env()
 
 READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
@@ -81,7 +81,9 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "my_diary.users",
+    "my_polls.users",
+    "my_polls.polls",
+    "my_polls.votes",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -90,7 +92,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
-MIGRATION_MODULES = {"sites": "my_diary.contrib.sites.migrations"}
+MIGRATION_MODULES = {"sites": "my_polls.contrib.sites.migrations"}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -102,7 +104,7 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "users:redirect"
+LOGIN_REDIRECT_URL = "polls:index"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -185,7 +187,7 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                "my_diary.users.context_processors.allauth_settings",
+                "my_polls.users.context_processors.allauth_settings",
             ],
         },
     },
@@ -271,15 +273,18 @@ ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none"
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_ADAPTER = "my_diary.users.adapters.AccountAdapter"
+ACCOUNT_ADAPTER = "my_polls.users.adapters.AccountAdapter"
 # https://docs.allauth.org/en/latest/account/forms.html
-ACCOUNT_FORMS = {"signup": "my_diary.users.forms.UserSignupForm"}
+ACCOUNT_FORMS = {
+    "signup": "my_polls.users.forms.UserSignupForm",
+    "login": "my_polls.users.forms.CustomLoginForm"
+}
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_ADAPTER = "my_diary.users.adapters.SocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "my_polls.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_FORMS = {"signup": "my_diary.users.forms.UserSocialSignupForm"}
+SOCIALACCOUNT_FORMS = {"signup": "my_polls.users.forms.UserSocialSignupForm"}
 
 
 # Your stuff...

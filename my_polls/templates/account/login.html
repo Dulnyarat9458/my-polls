@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load form_tags %}
+{% block containerclass %}d-flex justify-ceontent-center align-items-center{% endblock containerclass %}
+{% block main %}
+    {% block content %}
+        <form method="POST" action="{% url 'account_login' %}" class="auth-panel my-auto">
+            <h2 class="text-center">{{ _("Login") }}</h2>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+            <div class="mb-3">
+                {{ form.login.label_tag }}
+                {{ form.login|add_class:"form-control" }}
+                {{ form.login.errors }}
+            </div>
+            <div class="mb-3">
+                {{ form.password.label_tag }}
+                {{ form.password|add_class:"form-control" }}
+                {{ form.password.errors }}
+            </div>
+            <div class="text-end">
+                <a href="{% url 'account_reset_password' %}">Forget password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 my-4">Login</button>
+            <div>
+                <div class="text-center mb-2">
+                    Don't have an account? <a href="{% url 'account_signup' %}">Sign Up</a>
+                </div>
+            </div>
+        </form>
+    {% endblock content %}
+{% endblock main %}
+

@@ -268,7 +268,7 @@ tags
 dump.rdb
 
 ### Project template
-my_diary/media/
+my_polls/media/
 
 .pytest_cache/
 .ipython/
@@ -280,3 +280,4 @@ vendors.js
 .env
 .envs/*
 !.envs/.local/
+!.envs/.production.example/

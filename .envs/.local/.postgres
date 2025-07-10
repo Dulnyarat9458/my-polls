@@ -2,6 +2,6 @@
 # ------------------------------------------------------------------------------
 POSTGRES_HOST=postgres
 POSTGRES_PORT=5432
-POSTGRES_DB=my_diary
+POSTGRES_DB=my_polls
 POSTGRES_USER=hqKcNHsnSsaZKpnmkEsoXmYeyotfbhJV
 POSTGRES_PASSWORD=qSxYumbl5iXcNnhDgWj1VfHiY7B2RgUD57iqzPmOUN6NIB1fmotwtmdCjcWXfzYN
