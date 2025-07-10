@@ -4,21 +4,24 @@
 {% block title %}{% translate "Polls" %}{% endblock title %}
 {% block main %}
   {% block content %}
-    <form method="post">
+    <form method="post" class="mx-auto max-w-400">
       {% csrf_token %}
       {{ form.non_field_errors }}
-      <label for="choice">{{ object.question }}</label>
+      <label for="choice" class="fs-1 text-center w-100 mt-4">{{ object.question }}</label>
       {{ form.choice}}
       {{ form.choice.errors }}
       {% if object.is_closed %}
-        This poll is closed. Voting is disabled.
+        <div class="text-center my-4">This poll is closed. Voting is disabled.</div>
       {% else %}
-        <button type="submit" class="btn btn-primary d-block" >{% translate "Vote" %}</button>
+        {% if form.instance.pk %}
+          <button type="submit" class="btn btn-info d-block my-4 w-100" >{% translate "Vote Again" %}</button>
+        {% else %}
+          <button type="submit" class="btn btn-primary d-block my-4 w-100" >{% translate "Vote" %}</button>
+        {% endif %}
       {% endif %}
     </form>
   {% endblock content %}
 {% endblock main %}
-
 {% block inline_javascript %}
 <script src="{% static 'js/polls/formset_controller.js' %}"></script>
 {% endblock inline_javascript %}

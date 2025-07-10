@@ -26,6 +26,7 @@
       {{ form.question.label_tag }}
       {{ form.question}}
       {{ form.question.errors }}
+      <label class="my-3">{% translate "Choices" %}:</label>
       <label class="mt-3">Choices:</label>
       {{ formset.management_form }}
       <div id="formset-container">
@@ -56,7 +57,6 @@
     </form>
   {% endblock content %}
 {% endblock main %}
-
 {% block inline_javascript %}
 <script src="{% static 'js/polls/formset_controller.js' %}"></script>
 {% endblock inline_javascript %}

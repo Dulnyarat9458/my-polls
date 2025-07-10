@@ -42,6 +42,13 @@ class VoteView(SingleObjectMixin, FormView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['poll'] = self.get_object()
+
+        try:
+            vote = Vote.objects.get(choice__poll=self.object, user=self.request.user)
+            kwargs['instance'] = vote
+        except Vote.DoesNotExist:
+            pass
+
         return kwargs
 
     def get_success_url(self):

@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load static %}
-
 {% block title %}{% translate "Polls" %}{% endblock title %}
-
 {% block main %}
 {% block content %}
 <nav aria-label="breadcrumb" class="breadcrumb-panel">
@@ -45,7 +43,6 @@
       <div id="chart-wrapper">
         <canvas id="voted-chart-pie"></canvas>
       </div>
-
     </div>
   </div>
   <div class="my-5">
@@ -75,13 +72,10 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </div>
 {% endblock content %}
 {% endblock main %}
-
 {% block inline_javascript %}
   {{ choice_data|json_script:"choice-data" }}
   <script>
@@ -96,7 +90,6 @@
         });
       });
     };
-
     const choiceData = JSON.parse(document.getElementById("choice-data").textContent);
     const labels = choiceData.map(item => item.label);
     const counts = choiceData.map(item => item.count);
@@ -134,7 +127,6 @@
       const ctxp = document.getElementById('chart-wrapper');
       ctxp.innerHTML = '<p class="text-center text-muted">{% translate "No votes yet." %}</p>';
     }
-
   });
 </script>
 {% endblock inline_javascript %}

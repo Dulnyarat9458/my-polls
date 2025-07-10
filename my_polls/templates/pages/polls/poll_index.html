@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load static %}
-
 {% block title %}{% translate "Polls" %}{% endblock title %}
-
 {% block main %}
   {% block content %}
-
     <div class="row mb-3">
       <div class="col-12 text-center">
-        <h1 class="mb-0">{% translate "Poll list" %}</h1>
+        <h1 class="mb-0 mt-4">{% translate "Poll list" %}</h1>
       </div>
     </div>
     <div class="row d-flex justify-content-end align-items-center mb-4 g-2">
@@ -35,9 +32,6 @@
         </div>
       </div>
     </form>
-
-
-
     <ul class="list-unstyled">
       {% for poll in polls %}
         <li>
@@ -87,9 +81,7 @@
         </ul>
       </nav>
     </div>
-
   {% endblock content %}
 {% endblock main %}
-
 {% block inline_javascript %}
 {% endblock inline_javascript %}

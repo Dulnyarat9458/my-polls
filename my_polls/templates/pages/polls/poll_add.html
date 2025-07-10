@@ -11,8 +11,8 @@
       </ol>
     </nav>
     <div class="row align-items-center mb-2 g-2">
-      <div class="col-12 col-md-auto mb-2 mb-md-0 d-flex justify-content-md-start justify-content-center">
-        <a href="{% url 'polls:index' %}" class="btn btn-outline-secondary w-100">&larr; {% translate "Back to Polls" %}</a>
+      <div class="col-12 col-md-auto mb-2 mb-md-0 d-flex justify-content-start">
+        <a href="{% url 'polls:index' %}" class="btn btn-outline-secondary">&larr; {% translate "Back to Polls" %}</a>
       </div>
     </div>
     <div class="row mb-3">
@@ -20,13 +20,12 @@
         <h1 class="mb-0">{% translate "Poll Add" %}</h1>
       </div>
     </div>
-
     <form method="post" class="max-w-400 mx-auto mb-5">
       {% csrf_token %}
       {{ form.question.label_tag }}
       {{ form.question}}
       {{ form.question.errors }}
-      <label class="my-3">Choices:</label>
+      <label class="my-3">{% translate "Choices" %}:</label>
       {{ formset.management_form }}
       <div id="formset-container">
         {% for sub_form in formset %}
@@ -56,7 +55,6 @@
     </form>
   {% endblock content %}
 {% endblock main %}
-
 {% block inline_javascript %}
 <script src="{% static 'js/polls/formset_controller.js' %}"></script>
 {% endblock inline_javascript %}
