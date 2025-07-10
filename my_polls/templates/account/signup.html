@@ -2,8 +2,8 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load form_tags %}
+{% block containerclass %}d-flex justify-ceontent-center align-items-center{% endblock containerclass %}
 {% block content %}
-
 <form method="POST" action="{% url 'account_signup' %}" class="auth-panel">
     <h2 class="text-center">{{ _("Sign Up") }}</h2>
     {% csrf_token %}
